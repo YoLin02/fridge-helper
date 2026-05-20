@@ -2,25 +2,112 @@
   <view class="page-header">
     <view>
       <view class="page-title">卡路里</view>
-      <view class="page-subtitle">当前只提供页面壳，不实现 V1.5 业务逻辑。</view>
+      <view class="page-subtitle">围绕每日目标、饮食记录和运动消耗建立完整的营养视图。</view>
     </view>
-    <view class="ghost-button">今天</view>
+    <view class="ghost-button" bindtap="goProfile">目标设置</view>
   </view>
 
-  <section-card title="阶段说明" subtitle="遵循 AGENTS.md，先保留一级导航结构">
-    <view class="placeholder-copy">
-      这里会在后续阶段接入目标计算、饮食记录、运动消耗和营养统计。
-    </view>
-  </section-card>
+  <view wx:if="{{loading}}" class="placeholder-copy">数据加载中...</view>
 
-  <section-card class="section-spacer" title="记录区占位" subtitle="先确认信息架构和视觉节奏">
-    <view class="meal-list">
-      <block wx:for="{{mealSections}}" wx:key="title">
-        <view class="meal-item">
-          <view class="meal-title">{{item.title}}</view>
-          <view class="meal-hint">{{item.hint}}</view>
+  <view wx:elif="{{summary}}">
+    <section-card title="今日概览" subtitle="{{summary.profile ? '目标已配置，可持续记录每一餐。' : '建议先设置身体参数，系统会自动计算目标。'}}">
+      <view class="hero-row">
+        <view class="metric-side">
+          <view class="metric-value">{{summary.consumedCaloriesKcal}}</view>
+          <view class="metric-label">已摄入 kcal</view>
         </view>
-      </block>
-    </view>
-  </section-card>
+        <view class="ring-card">
+          <view class="ring-value">{{summary.remainingCaloriesKcal}}</view>
+          <view class="ring-label">还可摄入 / {{summary.recommendedCaloriesKcal}} kcal</view>
+        </view>
+        <view class="metric-side">
+          <view class="metric-value">{{summary.exerciseCaloriesKcal}}</view>
+          <view class="metric-label">运动消耗 kcal</view>
+        </view>
+      </view>
+    </section-card>
+
+    <section-card class="section-spacer" title="营养素进度" subtitle="由营养库计算，不直接采用 AI 最终热量结论">
+      <view class="macro-list">
+        <view class="macro-item">
+          <view class="macro-head">
+            <text>碳水</text>
+            <text>{{summary.carb.current}} / {{summary.carb.target}} g</text>
+          </view>
+          <progress percent="{{(summary.carb.current / summary.carb.target) * 100}}" stroke-width="8" activeColor="#32CBA3" backgroundColor="#E8F0ED" />
+        </view>
+        <view class="macro-item">
+          <view class="macro-head">
+            <text>蛋白质</text>
+            <text>{{summary.protein.current}} / {{summary.protein.target}} g</text>
+          </view>
+          <progress percent="{{(summary.protein.current / summary.protein.target) * 100}}" stroke-width="8" activeColor="#F6A623" backgroundColor="#F3EEE5" />
+        </view>
+        <view class="macro-item">
+          <view class="macro-head">
+            <text>脂肪</text>
+            <text>{{summary.fat.current}} / {{summary.fat.target}} g</text>
+          </view>
+          <progress percent="{{(summary.fat.current / summary.fat.target) * 100}}" stroke-width="8" activeColor="#8F86F8" backgroundColor="#ECEBFA" />
+        </view>
+      </view>
+    </section-card>
+
+    <section-card class="section-spacer" title="今日饮食记录" subtitle="记录区支持早餐、午餐、晚餐和加餐">
+      <view class="meal-list">
+        <block wx:for="{{mealOrder}}" wx:key="*this">
+          <view class="meal-item">
+            <view class="meal-head">
+              <view class="meal-title">{{item === 'breakfast' ? '早餐' : item === 'lunch' ? '午餐' : item === 'dinner' ? '晚餐' : '加餐'}}</view>
+              <view class="ghost-button small-button" data-meal="{{item}}" bindtap="goAddMeal">+ 记录</view>
+            </view>
+            <block wx:if="{{summary.meals[item].length}}">
+              <block wx:for="{{summary.meals[item]}}" wx:key="id">
+                <view class="meal-log">
+                  <view class="meal-log-text">{{item.originalText}}</view>
+                  <view class="meal-log-meta">{{item.totalCaloriesKcal}} kcal · 蛋白 {{item.totalProteinG}}g · 脂肪 {{item.totalFatG}}g · 碳水 {{item.totalCarbG}}g</view>
+                </view>
+              </block>
+            </block>
+            <view wx:else class="empty-copy">今天还没有这餐记录</view>
+          </view>
+        </block>
+      </view>
+    </section-card>
+
+    <section-card class="section-spacer" title="运动记录" subtitle="运动消耗会回补今日可摄入热量">
+      <view wx:if="{{summary.exercises.length}}" class="exercise-list">
+        <block wx:for="{{summary.exercises}}" wx:key="id">
+          <view class="exercise-item">
+            <view class="exercise-name">{{item.exerciseName}}</view>
+            <view class="exercise-meta">{{item.durationMinutes}} 分钟 · {{item.caloriesKcal}} kcal</view>
+          </view>
+        </block>
+      </view>
+      <view wx:else class="empty-copy">今天还没有运动记录</view>
+      <view class="ghost-button section-spacer small-button" bindtap="goAddExercise">+ 记录运动</view>
+    </section-card>
+
+    <section-card wx:if="{{recommendations}}" class="section-spacer" title="下一餐建议" subtitle="结合库存临期和剩余热量做轻量推荐">
+      <view wx:if="{{recommendations.expiringItems.length}}" class="recommend-group">
+        <view class="recommend-title">临期优先</view>
+        <block wx:for="{{recommendations.expiringItems}}" wx:key="foodName">
+          <view class="recommend-item">
+            <view class="recommend-name">{{item.foodName}}</view>
+            <view class="recommend-meta">{{item.quantityText}} · {{item.remainingDaysText}} · {{item.reason}}</view>
+          </view>
+        </block>
+      </view>
+
+      <view wx:if="{{recommendations.calorieFriendlyItems.length}}" class="recommend-group">
+        <view class="recommend-title">剩余热量友好</view>
+        <block wx:for="{{recommendations.calorieFriendlyItems}}" wx:key="foodName">
+          <view class="recommend-item">
+            <view class="recommend-name">{{item.foodName}}</view>
+            <view class="recommend-meta">{{item.quantityText}} · 约 {{item.estimatedCaloriesKcal}} kcal/100g · {{item.reason}}</view>
+          </view>
+        </block>
+      </view>
+    </section-card>
+  </view>
 </view>

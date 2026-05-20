@@ -4,6 +4,70 @@
   line-height: 1.7;
 }
 
+.hero-row {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 20rpx;
+  align-items: center;
+}
+
+.metric-side {
+  text-align: center;
+}
+
+.metric-value {
+  font-size: 46rpx;
+  font-weight: 600;
+}
+
+.metric-label {
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  color: var(--color-text-secondary);
+}
+
+.ring-card {
+  min-height: 220rpx;
+  border-radius: 999rpx;
+  background: radial-gradient(circle at top, rgba(50, 203, 163, 0.14), rgba(233, 250, 245, 0.9));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-value {
+  font-size: 64rpx;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.ring-label {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+
+.macro-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.macro-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.macro-head,
+.meal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20rpx;
+}
+
 .meal-list {
   display: flex;
   flex-direction: column;
@@ -21,8 +85,69 @@
   font-weight: 600;
 }
 
-.meal-hint {
+.meal-log + .meal-log {
+  margin-top: 16rpx;
+}
+
+.meal-log-text {
+  font-size: 28rpx;
+}
+
+.meal-log-meta,
+.empty-copy,
+.exercise-meta {
   margin-top: 8rpx;
   font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+.small-button {
+  height: 64rpx;
+  padding: 0 24rpx;
+  font-size: 24rpx;
+}
+
+.exercise-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.exercise-item {
+  padding: 20rpx;
+  border-radius: 20rpx;
+  background: #f9fbfb;
+}
+
+.exercise-name {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.recommend-group + .recommend-group {
+  margin-top: 22rpx;
+}
+
+.recommend-title {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.recommend-item {
+  padding: 18rpx 20rpx;
+  margin-top: 12rpx;
+  border-radius: 18rpx;
+  background: #f9fbfb;
+}
+
+.recommend-name {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.recommend-meta {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
   color: var(--color-text-secondary);
 }

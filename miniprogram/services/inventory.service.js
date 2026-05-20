@@ -5,6 +5,12 @@ exports.saveInventoryDraft = saveInventoryDraft;
 exports.getInventoryList = getInventoryList;
 exports.getInventoryStats = getInventoryStats;
 exports.getInventoryDetail = getInventoryDetail;
+exports.updateBatch = updateBatch;
+exports.consumeBatch = consumeBatch;
+exports.discardBatch = discardBatch;
+exports.listInventoryBatchOptions = listInventoryBatchOptions;
+exports.deductInventoryBatches = deductInventoryBatches;
+exports.getInventoryRecommendations = getInventoryRecommendations;
 const cloud_1 = require("./cloud");
 const mockDraft = {
     items: [
@@ -59,11 +65,15 @@ async function parseInventoryDraft(_) {
             warnings: result.warnings ?? result.data.warnings
         };
     }
-    catch {
+    catch (error) {
+        console.error("parseInventoryDraft failed", error);
         return {
             taskId: undefined,
             ...mockDraft,
-            warnings: [...mockDraft.warnings, "当前未连接云函数，已使用本地草稿数据。"]
+            warnings: [
+                ...mockDraft.warnings,
+                `云函数调用失败，已使用本地草稿数据。${error instanceof Error ? `原因：${error.message}` : ""}`
+            ]
         };
     }
 }
@@ -82,10 +92,11 @@ async function saveInventoryDraft(input) {
             message: result.message
         };
     }
-    catch {
+    catch (error) {
+        console.error("saveInventoryDraft failed", error);
         return {
             success: false,
-            message: "云函数尚未部署，暂时无法真正写入库存。"
+            message: error instanceof Error ? error.message : "云函数调用失败，暂时无法真正写入库存。"
         };
     }
 }
@@ -129,6 +140,86 @@ async function getInventoryDetail(foodName) {
     });
     if (!result.success || !result.data) {
         throw new Error(result.message ?? "get inventory detail failed");
+    }
+    return result.data;
+}
+async function updateBatch(input) {
+    const result = await (0, cloud_1.callCloudFunction)({
+        name: "inventory-api",
+        data: {
+            action: "updateBatch",
+            payload: input
+        }
+    });
+    if (!result.success) {
+        throw new Error(result.message ?? "update batch failed");
+    }
+    return true;
+}
+async function consumeBatch(input) {
+    const result = await (0, cloud_1.callCloudFunction)({
+        name: "inventory-api",
+        data: {
+            action: "consumeBatch",
+            payload: input
+        }
+    });
+    if (!result.success) {
+        throw new Error(result.message ?? "consume batch failed");
+    }
+    return true;
+}
+async function discardBatch(input) {
+    const result = await (0, cloud_1.callCloudFunction)({
+        name: "inventory-api",
+        data: {
+            action: "discardBatch",
+            payload: input
+        }
+    });
+    if (!result.success) {
+        throw new Error(result.message ?? "discard batch failed");
+    }
+    return true;
+}
+async function listInventoryBatchOptions() {
+    const result = await (0, cloud_1.callCloudFunction)({
+        name: "inventory-api",
+        data: {
+            action: "listInventoryBatchOptions",
+            payload: {}
+        }
+    });
+    if (!result.success || !result.data) {
+        throw new Error(result.message ?? "list inventory batch options failed");
+    }
+    return result.data.items;
+}
+async function deductInventoryBatches(input) {
+    const result = await (0, cloud_1.callCloudFunction)({
+        name: "inventory-api",
+        data: {
+            action: "deductInventoryByMeal",
+            payload: input
+        }
+    });
+    if (!result.success) {
+        throw new Error(result.message ?? "deduct inventory failed");
+    }
+    return true;
+}
+async function getInventoryRecommendations(remainingCaloriesKcal) {
+    const result = await (0, cloud_1.callCloudFunction)({
+        name: "inventory-api",
+        data: {
+            action: "getFoodRecommendations",
+            payload: {
+                remainingCaloriesKcal
+            }
+        }
+    });
+    if (!result.success || !result.data) {
+        throw new Error(result.message ?? "get food recommendations failed");
     }
     return result.data;
 }

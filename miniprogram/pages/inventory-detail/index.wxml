@@ -16,7 +16,7 @@
     </view>
   </section-card>
 
-  <section-card class="section-spacer" title="批次列表" subtitle="后续会在这里接编辑、消耗和丢弃操作">
+  <section-card class="section-spacer" title="批次列表" subtitle="M2 收尾后可直接在详情页操作批次">
     <view class="batch-list">
       <block wx:for="{{batches}}" wx:key="id">
         <view class="batch-item">
@@ -27,14 +27,13 @@
           <view class="batch-meta">入库日期：{{item.purchaseDate}}</view>
           <view class="batch-meta">到期日期：{{item.expireDate}}</view>
           <view class="batch-meta">存放位置：{{item.storageText}}</view>
+          <view class="batch-actions">
+            <view class="ghost-button small-button" data-id="{{item.id}}" bindtap="handleEdit">编辑</view>
+            <view class="ghost-button small-button" data-id="{{item.id}}" bindtap="handleConsume">消耗</view>
+            <view class="ghost-button small-button" data-id="{{item.id}}" bindtap="handleDiscard">丢弃</view>
+          </view>
         </view>
       </block>
     </view>
   </section-card>
-
-  <view class="action-row section-spacer">
-    <view class="ghost-button" bindtap="handleAction">编辑</view>
-    <view class="ghost-button" bindtap="handleAction">消耗</view>
-    <view class="ghost-button" bindtap="handleAction">丢弃</view>
-  </view>
 </view>

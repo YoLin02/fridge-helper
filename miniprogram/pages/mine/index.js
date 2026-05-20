@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const calorie_service_1 = require("../../services/calorie.service");
+const inventory_service_1 = require("../../services/inventory.service");
 Page({
     data: {
         profile: {
@@ -6,8 +9,8 @@ Page({
             description: "用心记录每一餐，遇见更好的自己"
         },
         stats: [
-            { title: "食材数量", value: "128", label: "V1 核心指标", hint: "待接真实库存" },
-            { title: "饮食记录", value: "--", label: "非 V1", hint: "先不接业务" }
+            { title: "食材数量", value: "--", label: "库存食材", hint: "按批次聚合" },
+            { title: "今日饮食", value: "--", label: "饮食记录", hint: "统计今日已记录热量" }
         ],
         settings: [
             "消息通知",
@@ -15,5 +18,22 @@ Page({
             "单位设置",
             "帮助与反馈"
         ]
+    },
+    async onShow() {
+        try {
+            const [inventoryStats, summary] = await Promise.all([
+                (0, inventory_service_1.getInventoryStats)(),
+                (0, calorie_service_1.getDailySummary)("2026-05-20")
+            ]);
+            this.setData({
+                stats: [
+                    { title: "食材数量", value: `${inventoryStats.totalItems}`, label: "库存食材", hint: "按批次聚合" },
+                    { title: "今日饮食", value: `${summary.consumedCaloriesKcal}`, label: "已摄入 kcal", hint: "自动汇总" }
+                ]
+            });
+        }
+        catch {
+            return;
+        }
     }
 });

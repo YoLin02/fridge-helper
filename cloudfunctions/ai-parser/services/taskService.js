@@ -4,6 +4,7 @@ const db = cloud.database();
 
 async function createTaskResult({
   openid,
+  taskType = "inventory_parse",
   inputType,
   inputText = "",
   rawAiResult,
@@ -15,7 +16,7 @@ async function createTaskResult({
   const now = Date.now();
   const taskRecord = {
     user_id: openid,
-    task_type: "inventory_parse",
+    task_type: taskType,
     input_type: inputType,
     input_text: inputText,
     image_file_id: "",

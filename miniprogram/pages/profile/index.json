@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "身体参数",
+  "usingComponents": {
+    "section-card": "/components/section-card/index"
+  }
+}

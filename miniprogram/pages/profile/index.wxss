@@ -1,0 +1,75 @@
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.field-group + .field-group {
+  margin-top: 24rpx;
+}
+
+.field-label {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+.pill-row {
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.pill {
+  padding: 16rpx 28rpx;
+  border-radius: 999rpx;
+  background: #f4f7f7;
+  color: var(--color-text-secondary);
+}
+
+.pill--active {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.text-input {
+  height: 84rpx;
+  padding: 0 24rpx;
+  border-radius: 20rpx;
+  background: #f9fbfb;
+  box-sizing: border-box;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20rpx;
+  margin-top: 24rpx;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20rpx;
+}
+
+.preview-item {
+  padding: 24rpx;
+  border-radius: 20rpx;
+  background: #f9fbfb;
+}
+
+.preview-value {
+  font-size: 42rpx;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.preview-label {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+
+.full-button {
+  width: 100%;
+}

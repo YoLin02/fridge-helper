@@ -6,6 +6,8 @@
     "pages/inventory/index",
     "pages/inventory-detail/index",
     "pages/calories/index",
+    "pages/calorie-add/index",
+    "pages/profile/index",
     "pages/mine/index"
   ],
   "window": {

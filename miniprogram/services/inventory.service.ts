@@ -2,9 +2,11 @@ import { callCloudFunction } from "./cloud";
 import type {
   AiInventoryDraft,
   InventoryBatch,
+  InventoryBatchOption,
   InventoryDetailResult,
   InventoryDraftItem,
   InventoryListItem,
+  InventoryRecommendations,
   InventoryStats,
   ParseInventoryDraftResult
 } from "../models/inventory";
@@ -227,6 +229,176 @@ export async function getInventoryDetail(foodName: string): Promise<InventoryDet
 
   if (!result.success || !result.data) {
     throw new Error(result.message ?? "get inventory detail failed");
+  }
+
+  return result.data;
+}
+
+export async function updateBatch(input: {
+  batchId: string;
+  quantity: number;
+}): Promise<boolean> {
+  const result = await callCloudFunction<
+    {
+      action: "updateBatch";
+      payload: {
+        batchId: string;
+        quantity: number;
+      };
+    },
+    { success: boolean; message?: string }
+  >({
+    name: "inventory-api",
+    data: {
+      action: "updateBatch",
+      payload: input
+    }
+  });
+
+  if (!result.success) {
+    throw new Error(result.message ?? "update batch failed");
+  }
+
+  return true;
+}
+
+export async function consumeBatch(input: {
+  batchId: string;
+}): Promise<boolean> {
+  const result = await callCloudFunction<
+    {
+      action: "consumeBatch";
+      payload: {
+        batchId: string;
+      };
+    },
+    { success: boolean; message?: string }
+  >({
+    name: "inventory-api",
+    data: {
+      action: "consumeBatch",
+      payload: input
+    }
+  });
+
+  if (!result.success) {
+    throw new Error(result.message ?? "consume batch failed");
+  }
+
+  return true;
+}
+
+export async function discardBatch(input: {
+  batchId: string;
+}): Promise<boolean> {
+  const result = await callCloudFunction<
+    {
+      action: "discardBatch";
+      payload: {
+        batchId: string;
+      };
+    },
+    { success: boolean; message?: string }
+  >({
+    name: "inventory-api",
+    data: {
+      action: "discardBatch",
+      payload: input
+    }
+  });
+
+  if (!result.success) {
+    throw new Error(result.message ?? "discard batch failed");
+  }
+
+  return true;
+}
+
+export async function listInventoryBatchOptions(): Promise<InventoryBatchOption[]> {
+  const result = await callCloudFunction<
+    {
+      action: "listInventoryBatchOptions";
+      payload: Record<string, never>;
+    },
+    {
+      success: boolean;
+      data?: {
+        items: InventoryBatchOption[];
+      };
+      message?: string;
+    }
+  >({
+    name: "inventory-api",
+    data: {
+      action: "listInventoryBatchOptions",
+      payload: {}
+    }
+  });
+
+  if (!result.success || !result.data) {
+    throw new Error(result.message ?? "list inventory batch options failed");
+  }
+
+  return result.data.items;
+}
+
+export async function deductInventoryBatches(input: {
+  items: Array<{
+    batchId: string;
+    consumeQuantity: number;
+  }>;
+}): Promise<boolean> {
+  const result = await callCloudFunction<
+    {
+      action: "deductInventoryByMeal";
+      payload: {
+        items: Array<{
+          batchId: string;
+          consumeQuantity: number;
+        }>;
+      };
+    },
+    { success: boolean; message?: string }
+  >({
+    name: "inventory-api",
+    data: {
+      action: "deductInventoryByMeal",
+      payload: input
+    }
+  });
+
+  if (!result.success) {
+    throw new Error(result.message ?? "deduct inventory failed");
+  }
+
+  return true;
+}
+
+export async function getInventoryRecommendations(remainingCaloriesKcal: number): Promise<InventoryRecommendations> {
+  const result = await callCloudFunction<
+    {
+      action: "getFoodRecommendations";
+      payload: {
+        remainingCaloriesKcal: number;
+      };
+    },
+    {
+      success: boolean;
+      data?: InventoryRecommendations;
+      message?: string;
+    }
+  >({
+    name: "inventory-api",
+    data: {
+      action: "getFoodRecommendations",
+      payload: {
+        remainingCaloriesKcal
+      }
+    }
+  });
+
+  if (!result.success || !result.data) {
+    throw new Error(result.message ?? "get food recommendations failed");
   }
 
   return result.data;

@@ -1,0 +1,76 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view>
+      <view class="page-title">{{mode === 'exercise' ? '记录运动' : '记录饮食'}}</view>
+      <view class="page-subtitle">日期：{{date}}</view>
+    </view>
+  </view>
+
+  <section-card wx:if="{{mode !== 'exercise'}}" title="饮食输入" subtitle="支持自然语言输入，系统用营养库计算结果">
+    <view wx:if="{{inventoryOptions.length}}" class="inventory-picker">
+      <view class="field-label">从库存选择食材</view>
+      <view class="inventory-option-list">
+        <block wx:for="{{inventoryOptions}}" wx:key="batchId">
+          <view class="inventory-option" data-batch-id="{{item.batchId}}" bindtap="selectInventoryItem">
+            <view class="inventory-option-name">{{item.foodName}}</view>
+            <view class="inventory-option-meta">{{item.quantity}} {{item.unit}} · {{item.expireDate}}</view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view wx:if="{{selectedInventory.length}}" class="selected-list">
+      <block wx:for="{{selectedInventory}}" wx:key="batchId">
+        <view class="selected-chip" data-batch-id="{{item.batchId}}" bindtap="removeSelectedInventory">
+          {{item.foodName}} {{item.consumeQuantity}}{{item.unit}} ×
+        </view>
+      </block>
+    </view>
+
+    <textarea class="entry-textarea" value="{{inputText}}" data-field="inputText" bindinput="handleInput" placeholder="例如：早餐吃了两个鸡蛋，一杯牛奶，两片吐司" />
+    <view class="pill-button full-button" bindtap="handleParse">
+      {{parsing ? '解析中...' : '解析饮食内容'}}
+    </view>
+  </section-card>
+
+  <section-card wx:if="{{mode === 'exercise'}}" title="运动输入" subtitle="手动记录运动消耗">
+    <view class="field-group">
+      <view class="field-label">运动名称</view>
+      <input class="text-input" value="{{exerciseName}}" data-field="exerciseName" bindinput="handleInput" placeholder="例如：快走" />
+    </view>
+    <view class="field-grid">
+      <view class="field-group">
+        <view class="field-label">消耗 kcal</view>
+        <input class="text-input" type="number" value="{{exerciseCalories}}" data-field="exerciseCalories" bindinput="handleInput" />
+      </view>
+      <view class="field-group">
+        <view class="field-label">时长 分钟</view>
+        <input class="text-input" type="number" value="{{durationMinutes}}" data-field="durationMinutes" bindinput="handleInput" />
+      </view>
+    </view>
+  </section-card>
+
+  <section-card wx:if="{{draft}}" class="section-spacer" title="解析结果" subtitle="确认后才会保存饮食记录">
+    <view class="draft-list">
+      <block wx:for="{{draft.foods}}" wx:key="foodName">
+        <view class="draft-item">
+          <view class="draft-top">
+            <view class="draft-name">{{item.foodName}}</view>
+            <view class="draft-kcal">{{item.caloriesKcal}} kcal</view>
+          </view>
+          <view class="draft-meta">{{item.estimatedWeightG}}g · 蛋白 {{item.proteinG}}g · 脂肪 {{item.fatG}}g · 碳水 {{item.carbG}}g</view>
+        </view>
+      </block>
+    </view>
+    <view class="summary-row">
+      <view>总热量 {{draft.totalCaloriesKcal}} kcal</view>
+      <view>蛋白 {{draft.totalProteinG}}g</view>
+      <view>脂肪 {{draft.totalFatG}}g</view>
+      <view>碳水 {{draft.totalCarbG}}g</view>
+    </view>
+  </section-card>
+
+  <view class="pill-button full-button section-spacer" bindtap="handleSave">
+    {{saving ? '提交中...' : '确认保存'}}
+  </view>
+</view>

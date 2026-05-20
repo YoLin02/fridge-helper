@@ -46,7 +46,15 @@
   color: var(--color-text-secondary);
 }
 
-.action-row {
+.batch-actions {
   display: flex;
   gap: 16rpx;
+  margin-top: 18rpx;
+  flex-wrap: wrap;
+}
+
+.small-button {
+  height: 64rpx;
+  padding: 0 24rpx;
+  font-size: 24rpx;
 }

@@ -42,6 +42,7 @@ function toClientBatch(record) {
     status: record.status,
     createdAt: String(record.created_at),
     updatedAt: String(record.updated_at),
+    confidence: record.ai_confidence,
     note: record.note || ""
   };
 }
@@ -53,8 +54,17 @@ function getExpireDays(purchaseDate, expireDate) {
   return Math.max(0, Math.round((expire - purchase) / (24 * 60 * 60 * 1000)));
 }
 
-function getExpireStatus(expireDate) {
-  const today = new Date("2026-05-20T00:00:00+08:00").getTime();
+function getTodayDate() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = `${now.getMonth() + 1}`.padStart(2, "0");
+  const day = `${now.getDate()}`.padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function getExpireStatus(expireDate, todayDate = getTodayDate()) {
+  const today = new Date(`${todayDate}T00:00:00+08:00`).getTime();
   const target = new Date(`${expireDate}T00:00:00+08:00`).getTime();
   const diff = Math.round((target - today) / (24 * 60 * 60 * 1000));
 
@@ -67,6 +77,22 @@ function getExpireStatus(expireDate) {
   }
 
   return "normal";
+}
+
+function getRemainingDaysText(expireDate) {
+  const today = new Date(`${getTodayDate()}T00:00:00+08:00`).getTime();
+  const target = new Date(`${expireDate}T00:00:00+08:00`).getTime();
+  const diff = Math.round((target - today) / (24 * 60 * 60 * 1000));
+
+  if (diff < 0) {
+    return `已过期 ${Math.abs(diff)} 天`;
+  }
+
+  if (diff === 0) {
+    return "今日到期";
+  }
+
+  return `还有 ${diff} 天`;
 }
 
 function groupInventory(records) {
@@ -147,10 +173,84 @@ function buildStats(records) {
   };
 }
 
+function toBatchOption(record) {
+  return {
+    batchId: record._id,
+    foodName: record.food_name,
+    quantity: record.quantity,
+    unit: record.unit,
+    storageLocation: record.storage_location,
+    expireDate: record.expire_date
+  };
+}
+
+function fallbackCalories(foodName) {
+  const map = {
+    鸡蛋: 143,
+    纯牛奶: 54,
+    米饭: 116,
+    鸡胸肉: 133,
+    酸奶: 72,
+    吐司面包: 266,
+    番茄: 18
+  };
+
+  return map[foodName] || 100;
+}
+
+function buildRecommendationItems(records, nutritionRows, remainingCaloriesKcal) {
+  const nutritionMap = new Map();
+
+  nutritionRows.forEach((row) => {
+    nutritionMap.set(row.food_name, row);
+    (row.aliases || []).forEach((alias) => nutritionMap.set(alias, row));
+  });
+
+  const grouped = groupInventory(records);
+  const expiringItems = grouped
+    .filter((item) => {
+      const state = getExpireStatus(item.nearestExpireDate);
+      return state === "expiring" || state === "expired";
+    })
+    .slice(0, 5)
+    .map((item) => ({
+      foodName: item.foodName,
+      quantityText: `${item.totalQuantity} ${item.unit}`,
+      expireDate: item.nearestExpireDate,
+      remainingDaysText: getRemainingDaysText(item.nearestExpireDate),
+      reason: "优先清理临期库存"
+    }));
+
+  const calorieFriendlyItems = grouped
+    .map((item) => {
+      const nutrition = nutritionMap.get(item.foodName);
+      const estimatedCaloriesKcal = nutrition ? nutrition.calories_kcal || 0 : fallbackCalories(item.foodName);
+
+      return {
+        foodName: item.foodName,
+        quantityText: `${item.totalQuantity} ${item.unit}`,
+        expireDate: item.nearestExpireDate,
+        remainingDaysText: getRemainingDaysText(item.nearestExpireDate),
+        estimatedCaloriesKcal,
+        reason: estimatedCaloriesKcal <= remainingCaloriesKcal ? "符合当前剩余热量" : "建议控制分量"
+      };
+    })
+    .filter((item) => item.estimatedCaloriesKcal <= Math.max(remainingCaloriesKcal, 300))
+    .slice(0, 5);
+
+  return {
+    expiringItems,
+    calorieFriendlyItems
+  };
+}
+
 module.exports = {
   buildStats,
+  buildRecommendationItems,
   filterInventoryItems,
   groupInventory,
+  getRemainingDaysText,
   toBatchRecord,
+  toBatchOption,
   toClientBatch
 };

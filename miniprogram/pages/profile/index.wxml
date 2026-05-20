@@ -1,0 +1,104 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view>
+      <view class="page-title">身体参数</view>
+      <view class="page-subtitle">设置目标后，系统会自动计算每日热量和三大营养素目标。</view>
+    </view>
+  </view>
+
+  <section-card title="基础信息" subtitle="采用健康成年人常用估算公式">
+    <view class="field-group">
+      <view class="field-label">性别</view>
+      <view class="pill-row">
+        <block wx:for="{{genderOptions}}" wx:key="value">
+          <view
+            class="pill {{form.gender === item.value ? 'pill--active' : ''}}"
+            data-field="gender"
+            data-value="{{item.value}}"
+            bindtap="handleSelect"
+          >
+            {{item.label}}
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="field-group">
+      <view class="field-label">生日</view>
+      <input class="text-input" value="{{form.birthday}}" data-field="birthday" bindinput="handleInput" />
+    </view>
+
+    <view class="field-grid">
+      <view class="field-group">
+        <view class="field-label">身高 cm</view>
+        <input class="text-input" type="number" value="{{form.heightCm}}" data-field="heightCm" bindinput="handleInput" />
+      </view>
+      <view class="field-group">
+        <view class="field-label">体重 kg</view>
+        <input class="text-input" type="number" value="{{form.weightKg}}" data-field="weightKg" bindinput="handleInput" />
+      </view>
+    </view>
+
+    <view class="field-group">
+      <view class="field-label">目标体重 kg</view>
+      <input class="text-input" type="number" value="{{form.targetWeightKg}}" data-field="targetWeightKg" bindinput="handleInput" />
+    </view>
+
+    <view class="field-group">
+      <view class="field-label">目标类型</view>
+      <view class="pill-row">
+        <block wx:for="{{goalOptions}}" wx:key="value">
+          <view
+            class="pill {{form.goal === item.value ? 'pill--active' : ''}}"
+            data-field="goal"
+            data-value="{{item.value}}"
+            bindtap="handleSelect"
+          >
+            {{item.label}}
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="field-group">
+      <view class="field-label">活动水平</view>
+      <view class="pill-row">
+        <block wx:for="{{activityOptions}}" wx:key="value">
+          <view
+            class="pill {{form.activityLevel === item.value ? 'pill--active' : ''}}"
+            data-field="activityLevel"
+            data-value="{{item.value}}"
+            bindtap="handleSelect"
+          >
+            {{item.label}}
+          </view>
+        </block>
+      </view>
+    </view>
+  </section-card>
+
+  <section-card class="section-spacer" title="目标预览" subtitle="保存后会作为卡路里页的默认目标">
+    <view wx:if="{{preview}}" class="preview-grid">
+      <view class="preview-item">
+        <view class="preview-value">{{preview.dailyCalorieTarget}}</view>
+        <view class="preview-label">每日热量</view>
+      </view>
+      <view class="preview-item">
+        <view class="preview-value">{{preview.proteinTargetG}}g</view>
+        <view class="preview-label">蛋白质</view>
+      </view>
+      <view class="preview-item">
+        <view class="preview-value">{{preview.fatTargetG}}g</view>
+        <view class="preview-label">脂肪</view>
+      </view>
+      <view class="preview-item">
+        <view class="preview-value">{{preview.carbTargetG}}g</view>
+        <view class="preview-label">碳水</view>
+      </view>
+    </view>
+  </section-card>
+
+  <view class="pill-button full-button section-spacer" bindtap="handleSave">
+    {{saving ? '保存中...' : '保存目标'}}
+  </view>
+</view>

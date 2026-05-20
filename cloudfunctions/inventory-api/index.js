@@ -5,9 +5,15 @@ cloud.init({
 });
 
 const { createBatches } = require("./actions/createBatches");
+const { consumeBatch } = require("./actions/consumeBatch");
+const { discardBatch } = require("./actions/discardBatch");
+const { deductInventoryByMeal } = require("./actions/deductInventoryByMeal");
+const { getFoodRecommendations } = require("./actions/getFoodRecommendations");
 const { listInventory } = require("./actions/listInventory");
+const { listInventoryBatchOptions } = require("./actions/listInventoryBatchOptions");
 const { getInventoryDetail } = require("./actions/getInventoryDetail");
 const { getInventoryStats } = require("./actions/getInventoryStats");
+const { updateBatch } = require("./actions/updateBatch");
 
 exports.main = async (event) => {
   const { action, payload = {} } = event || {};
@@ -26,6 +32,30 @@ exports.main = async (event) => {
 
   if (action === "getInventoryStats") {
     return getInventoryStats(payload);
+  }
+
+  if (action === "listInventoryBatchOptions") {
+    return listInventoryBatchOptions(payload);
+  }
+
+  if (action === "updateBatch") {
+    return updateBatch(payload);
+  }
+
+  if (action === "consumeBatch") {
+    return consumeBatch(payload);
+  }
+
+  if (action === "discardBatch") {
+    return discardBatch(payload);
+  }
+
+  if (action === "deductInventoryByMeal") {
+    return deductInventoryByMeal(payload);
+  }
+
+  if (action === "getFoodRecommendations") {
+    return getFoodRecommendations(payload);
   }
 
   return {

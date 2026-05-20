@@ -20,6 +20,7 @@ export interface InventoryBatch {
   status: InventoryStatus;
   createdAt: string;
   updatedAt: string;
+  confidence?: number;
   note?: string;
 }
 
@@ -73,4 +74,27 @@ export interface InventoryStats {
   expiringItems: number;
   expiredItems: number;
   categories: number;
+}
+
+export interface InventoryBatchOption {
+  batchId: string;
+  foodName: string;
+  quantity: number;
+  unit: string;
+  storageLocation: StorageLocation;
+  expireDate: string;
+}
+
+export interface InventoryRecommendationItem {
+  foodName: string;
+  quantityText: string;
+  expireDate: string;
+  remainingDaysText: string;
+  estimatedCaloriesKcal?: number;
+  reason: string;
+}
+
+export interface InventoryRecommendations {
+  expiringItems: InventoryRecommendationItem[];
+  calorieFriendlyItems: InventoryRecommendationItem[];
 }
