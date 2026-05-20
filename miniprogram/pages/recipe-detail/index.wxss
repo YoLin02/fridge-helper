@@ -1,0 +1,14 @@
+.loading-copy,
+.ingredient-item,
+.step-item {
+  font-size: 26rpx;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.ingredient-list,
+.step-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}

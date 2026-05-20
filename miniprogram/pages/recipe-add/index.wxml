@@ -1,0 +1,34 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view>
+      <view class="page-title">新增菜谱</view>
+      <view class="page-subtitle">支持文字菜谱解析，保存前会生成结构化草稿。</view>
+    </view>
+  </view>
+
+  <section-card title="输入菜谱" subtitle="可粘贴食材与步骤文本">
+    <textarea class="entry-textarea" value="{{inputText}}" bindinput="handleInput" />
+    <view class="pill-button full-button" bindtap="handleParse">
+      {{parsing ? '解析中...' : '解析菜谱'}}
+    </view>
+  </section-card>
+
+  <section-card wx:if="{{draft}}" class="section-spacer" title="{{draft.recipeName}}" subtitle="确认后保存到我的菜谱库">
+    <view class="draft-meta">{{draft.cookingTime}} 分钟 · {{draft.difficulty}} · {{draft.estimatedCaloriesKcal}} kcal</view>
+    <view class="draft-subtitle">食材</view>
+    <view class="ingredient-list">
+      <block wx:for="{{draft.ingredients}}" wx:key="name">
+        <view class="ingredient-item">{{item.name}} · {{item.quantity}}{{item.unit}}</view>
+      </block>
+    </view>
+    <view class="draft-subtitle">步骤</view>
+    <view class="step-list">
+      <block wx:for="{{draft.steps}}" wx:key="*this">
+        <view class="step-item">{{index + 1}}. {{item}}</view>
+      </block>
+    </view>
+    <view class="full-button pill-button section-spacer" bindtap="handleSave">
+      {{saving ? '保存中...' : '保存菜谱'}}
+    </view>
+  </section-card>
+</view>

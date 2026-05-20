@@ -5,7 +5,7 @@ cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
 });
 
-const { applyFoodRules, buildCalorieDraft, buildInventoryDraft } = require("./services/normalizeService");
+const { applyFoodRules, buildCalorieDraft, buildInventoryDraft, buildRecipeDraft } = require("./services/normalizeService");
 const { createTaskResult } = require("./services/taskService");
 
 async function loadFoodRules() {
@@ -72,6 +72,31 @@ exports.main = async (event) => {
       return {
         success: false,
         message: error.message || "parse calorie failed"
+      };
+    }
+  }
+
+  if (action === "parseRecipeInput") {
+    try {
+      const nutritionRows = await loadFoodNutrition();
+      const draft = buildRecipeDraft(payload.text || "", nutritionRows);
+
+      return await createTaskResult({
+        openid: OPENID,
+        taskType: "recipe_parse",
+        inputType: "recipe_text",
+        inputText: payload.text || "",
+        rawAiResult: {
+          source: "mock_recipe_parser",
+          payload
+        },
+        normalizedResult: draft,
+        warnings: draft.warnings
+      });
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message || "parse recipe failed"
       };
     }
   }

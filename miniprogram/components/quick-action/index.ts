@@ -11,7 +11,9 @@ Component({
   },
   methods: {
     handleTap() {
-      this.triggerEvent("tapaction");
+      this.triggerEvent("tapaction", {
+        title: this.properties.title
+      });
     }
   }
 });

@@ -1,0 +1,33 @@
+.entry-textarea {
+  width: 100%;
+  min-height: 260rpx;
+  padding: 24rpx;
+  border-radius: 24rpx;
+  box-sizing: border-box;
+  background: #f9fbfb;
+  font-size: 28rpx;
+}
+
+.full-button {
+  width: 100%;
+  margin-top: 24rpx;
+}
+
+.draft-meta,
+.ingredient-item,
+.step-item {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.draft-subtitle {
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.ingredient-list,
+.step-list {
+  margin-top: 10rpx;
+}

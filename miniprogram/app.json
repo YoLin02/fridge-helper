@@ -7,6 +7,9 @@
     "pages/inventory-detail/index",
     "pages/calories/index",
     "pages/calorie-add/index",
+    "pages/recipe/index",
+    "pages/recipe-add/index",
+    "pages/recipe-detail/index",
     "pages/profile/index",
     "pages/mine/index"
   ],

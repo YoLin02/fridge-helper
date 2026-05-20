@@ -30,8 +30,35 @@
   <section-card class="section-spacer" title="快捷入口" subtitle="先把一级信息架构跑通">
     <view class="action-grid">
       <block wx:for="{{quickActions}}" wx:key="title">
-        <quick-action title="{{item.title}}" desc="{{item.desc}}" bind:tapaction="handleComingSoon" />
+        <quick-action title="{{item.title}}" desc="{{item.desc}}" bind:tapaction="handleQuickAction" />
       </block>
     </view>
+  </section-card>
+
+  <section-card class="section-spacer" title="为你推荐" subtitle="结合库存和热量推荐可执行菜谱">
+    <view wx:if="{{recipeRecommendations.length}}" class="home-recipe-list">
+      <block wx:for="{{recipeRecommendations}}" wx:key="recipeId">
+        <view class="home-recipe-item" data-id="{{item.recipeId}}" bindtap="goRecipeDetail">
+          <view class="home-recipe-top">
+            <view class="home-recipe-name">{{item.recipeName}}</view>
+            <view class="home-recipe-kcal">{{item.estimatedCaloriesKcal}} kcal</view>
+          </view>
+          <view class="home-recipe-meta">已有：{{item.matchedIngredients.join('、') || '无'}} · 缺少：{{item.missingIngredients.join('、') || '无'}}</view>
+          <view class="home-recipe-reason">{{item.reason}}</view>
+        </view>
+      </block>
+    </view>
+    <view wx:else class="hero-desc">先上传几份菜谱，首页就会开始给你做库存匹配推荐。</view>
+    <view class="ghost-button section-spacer" bindtap="goRecipes">查看全部菜谱</view>
+  </section-card>
+
+  <section-card class="section-spacer" title="本周计划" subtitle="提前安排每日菜单、购物清单和备菜节奏">
+    <view wx:if="{{latestPlan}}" class="plan-preview">
+      <view class="plan-preview-title">{{latestPlan.cycleDays}} 天 · {{latestPlan.peopleCount}} 人 · {{latestPlan.goal}}</view>
+      <view class="plan-preview-meta">首日菜单：{{latestPlan.days[0].meals[0].recipeName}} / {{latestPlan.days[0].meals[1].recipeName}} / {{latestPlan.days[0].meals[2].recipeName}}</view>
+      <view class="plan-preview-meta">购物清单 {{latestPlan.shoppingList.length}} 项 · 备菜建议 {{latestPlan.prepSuggestions.length}} 条</view>
+    </view>
+    <view wx:else class="hero-desc">还没有周计划，生成后可以集中查看每日菜单和购物清单。</view>
+    <view class="ghost-button section-spacer" bindtap="goPlan">{{latestPlan ? '查看完整计划' : '生成一周计划'}}</view>
   </section-card>
 </view>

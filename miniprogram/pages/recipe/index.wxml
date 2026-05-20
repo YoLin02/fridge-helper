@@ -1,0 +1,30 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view>
+      <view class="page-title">菜谱库</view>
+      <view class="page-subtitle">管理上传菜谱，并基于库存与热量做推荐。</view>
+    </view>
+    <view class="pill-button" bindtap="goCreate">新增菜谱</view>
+  </view>
+
+  <section-card title="我的菜谱" subtitle="可从文本草稿解析后确认保存">
+    <view wx:if="{{loading}}" class="loading-copy">加载中...</view>
+    <view wx:elif="{{items.length}}" class="recipe-list">
+      <block wx:for="{{items}}" wx:key="id">
+        <view class="recipe-item" data-id="{{item.id}}" bindtap="goDetail">
+          <view class="recipe-top">
+            <view class="recipe-name">{{item.recipeName}}</view>
+            <view class="recipe-kcal">{{item.estimatedCaloriesKcal}} kcal</view>
+          </view>
+          <view class="recipe-meta">{{item.cookingTime}} 分钟 · {{item.difficulty}} · {{item.ingredients.length}} 种食材</view>
+          <view class="tag-row">
+            <block wx:for="{{item.tags}}" wx:key="*this">
+              <view class="tag-chip">{{item}}</view>
+            </block>
+          </view>
+        </view>
+      </block>
+    </view>
+    <view wx:else class="loading-copy">还没有菜谱，先新增一份试试。</view>
+  </section-card>
+</view>

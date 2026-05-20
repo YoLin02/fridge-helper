@@ -1,0 +1,28 @@
+<view class="page-shell">
+  <view wx:if="{{loading}}" class="loading-copy">加载中...</view>
+
+  <view wx:elif="{{item}}">
+    <view class="page-header">
+      <view>
+        <view class="page-title">{{item.recipeName}}</view>
+        <view class="page-subtitle">{{item.cookingTime}} 分钟 · {{item.difficulty}} · {{item.estimatedCaloriesKcal}} kcal</view>
+      </view>
+    </view>
+
+    <section-card title="食材清单" subtitle="用于库存匹配和缺料判断">
+      <view class="ingredient-list">
+        <block wx:for="{{item.ingredients}}" wx:key="name">
+          <view class="ingredient-item">{{item.name}} · {{item.quantity}}{{item.unit}}</view>
+        </block>
+      </view>
+    </section-card>
+
+    <section-card class="section-spacer" title="烹饪步骤" subtitle="保存后的结构化步骤">
+      <view class="step-list">
+        <block wx:for="{{item.steps}}" wx:key="*this">
+          <view class="step-item">{{index + 1}}. {{item}}</view>
+        </block>
+      </view>
+    </section-card>
+  </view>
+</view>

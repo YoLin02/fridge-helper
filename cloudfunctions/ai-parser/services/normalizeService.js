@@ -266,8 +266,107 @@ function buildCalorieDraft(text, nutritionRows = []) {
   };
 }
 
+function parseRecipeName(text) {
+  const firstLine = text.split(/\n/).map((item) => item.trim()).find(Boolean);
+
+  if (!firstLine) {
+    return "未命名菜谱";
+  }
+
+  if (firstLine.length <= 12) {
+    return firstLine;
+  }
+
+  if (/番茄炒蛋/.test(text)) {
+    return "番茄炒蛋";
+  }
+
+  if (/鸡胸/.test(text) && /西兰花/.test(text)) {
+    return "西兰花鸡胸肉";
+  }
+
+  return firstLine.slice(0, 12);
+}
+
+function parseRecipeIngredients(text) {
+  const result = [];
+  const ingredientPatterns = [
+    { name: "番茄", regex: /番茄|西红柿/, defaultQuantity: 2, unit: "个" },
+    { name: "鸡蛋", regex: /鸡蛋/, defaultQuantity: 3, unit: "个" },
+    { name: "鸡胸肉", regex: /鸡胸/, defaultQuantity: 200, unit: "g" },
+    { name: "西兰花", regex: /西兰花/, defaultQuantity: 150, unit: "g" },
+    { name: "米饭", regex: /米饭/, defaultQuantity: 150, unit: "g" },
+    { name: "纯牛奶", regex: /牛奶/, defaultQuantity: 250, unit: "g" }
+  ];
+
+  ingredientPatterns.forEach((pattern) => {
+    if (!pattern.regex.test(text)) {
+      return;
+    }
+
+    const match = text.match(new RegExp(`${pattern.name}|${pattern.regex.source}[^\\d]*(\\d+)\\s*(个|克|g|盒)?`, "i"));
+    const quantity = match && match[1] ? Number(match[1]) : pattern.defaultQuantity;
+    const unit = match && match[2] ? match[2] : pattern.unit;
+
+    result.push({
+      name: pattern.name,
+      quantity,
+      unit,
+      required: true
+    });
+  });
+
+  return result.length > 0
+    ? result
+    : [
+        { name: "主食材", quantity: 1, unit: "份", required: true },
+        { name: "基础调味", quantity: 1, unit: "份", required: true }
+      ];
+}
+
+function estimateRecipeCalories(ingredients, nutritionRows = []) {
+  const nutritionMap = new Map();
+  nutritionRows.forEach((row) => {
+    nutritionMap.set(row.food_name, row);
+  });
+
+  return ingredients.reduce((sum, ingredient) => {
+    const nutrition = nutritionMap.get(ingredient.name) || fallbackNutrition(ingredient.name);
+    const baseAmount = nutrition.base_amount || 100;
+    const weight = ingredient.unit === "个" ? ingredient.quantity * 50 : ingredient.quantity;
+    return sum + Math.round((nutrition.calories_kcal || 0) * (weight / baseAmount));
+  }, 0);
+}
+
+function buildRecipeDraft(text, nutritionRows = []) {
+  const recipeName = parseRecipeName(text);
+  const ingredients = parseRecipeIngredients(text);
+  const estimatedCaloriesKcal = estimateRecipeCalories(ingredients, nutritionRows);
+  const steps = text
+    .split(/\n|。/)
+    .map((item) => item.trim())
+    .filter((item) => item.length >= 4)
+    .slice(0, 6);
+
+  return {
+    recipeName,
+    description: "AI 解析生成的菜谱草稿",
+    tags: ingredients.length <= 3 ? ["快手菜"] : ["家常菜"],
+    cookingTime: ingredients.length <= 3 ? 15 : 25,
+    difficulty: ingredients.length <= 3 ? "easy" : "medium",
+    ingredients,
+    steps:
+      steps.length > 0
+        ? steps
+        : ["准备食材", "处理主要食材", "加热烹饪", "调味装盘"],
+    estimatedCaloriesKcal,
+    warnings: ["AI 只生成菜谱草稿，保存前请确认食材与步骤。"]
+  };
+}
+
 module.exports = {
   applyFoodRules,
   buildCalorieDraft,
-  buildInventoryDraft
+  buildInventoryDraft,
+  buildRecipeDraft
 };
