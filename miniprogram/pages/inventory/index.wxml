@@ -28,7 +28,7 @@
   <section-card class="section-spacer" title="食材列表" subtitle="保持信息优先，复杂操作放到详情页">
     <view class="inventory-list">
       <block wx:for="{{items}}" wx:key="name">
-        <view class="inventory-item">
+        <view class="inventory-item" data-name="{{item.name}}" bindtap="goDetail">
           <view class="inventory-top">
             <view>
               <view class="inventory-name">{{item.name}}</view>

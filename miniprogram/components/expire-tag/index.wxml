@@ -1,0 +1,3 @@
+<view class="expire-tag expire-tag--{{state}}">
+  {{text}}
+</view>

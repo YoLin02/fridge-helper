@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "确认入库",
+  "usingComponents": {
+    "section-card": "/components/section-card/index",
+    "expire-tag": "/components/expire-tag/index"
+  }
+}

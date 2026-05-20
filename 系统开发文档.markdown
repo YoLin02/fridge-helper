@@ -1238,6 +1238,17 @@ miniprogram
 
 ## 12. 云函数目录结构
 
+说明：
+
+```text
+生产项目中，cloudfunctions 必须放在项目根目录，
+并与 miniprogram 保持同级：
+
+project-root
+├── miniprogram
+└── cloudfunctions
+```
+
 ```text
 cloudfunctions
 ├── ai-parser

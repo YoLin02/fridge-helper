@@ -1,0 +1,52 @@
+.overview-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.overview-value {
+  font-size: 52rpx;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.overview-label {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+.batch-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.batch-item {
+  padding: 24rpx;
+  border-radius: 24rpx;
+  background: #f9fbfb;
+}
+
+.batch-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.batch-quantity {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.batch-meta {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+.action-row {
+  display: flex;
+  gap: 16rpx;
+}

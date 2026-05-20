@@ -1,7 +1,10 @@
 {
   "pages": [
     "pages/home/index",
+    "pages/ai-entry/index",
+    "pages/ai-confirm/index",
     "pages/inventory/index",
+    "pages/inventory-detail/index",
     "pages/calories/index",
     "pages/mine/index"
   ],

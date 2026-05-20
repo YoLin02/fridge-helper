@@ -1,0 +1,38 @@
+.mode-row {
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.mode-pill {
+  padding: 18rpx 28rpx;
+  border-radius: 999rpx;
+  background: #f5f7f8;
+  color: var(--color-text-secondary);
+}
+
+.mode-pill--active {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.entry-textarea {
+  width: 100%;
+  min-height: 260rpx;
+  margin-top: 24rpx;
+  padding: 24rpx;
+  border-radius: 24rpx;
+  box-sizing: border-box;
+  background: #f9fbfb;
+  font-size: 28rpx;
+}
+
+.entry-tip {
+  margin-top: 18rpx;
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+
+.entry-button {
+  margin-top: 28rpx;
+}

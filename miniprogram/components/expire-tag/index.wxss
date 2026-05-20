@@ -1,0 +1,24 @@
+.expire-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 48rpx;
+  padding: 0 18rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+}
+
+.expire-tag--normal {
+  background: #edf9f5;
+  color: var(--color-primary);
+}
+
+.expire-tag--warning,
+.expire-tag--today {
+  background: #fff4e8;
+  color: var(--color-warning);
+}
+
+.expire-tag--expired {
+  background: #feeeee;
+  color: var(--color-danger);
+}

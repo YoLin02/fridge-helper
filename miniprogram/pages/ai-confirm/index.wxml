@@ -1,0 +1,50 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view>
+      <view class="page-title">确认入库</view>
+      <view class="page-subtitle">AI 结果只做草稿展示，确认后才允许写入库存。</view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading-copy">草稿生成中...</view>
+
+  <view wx:else>
+    <section-card title="本次输入" subtitle="确认解析来源与原始内容">
+      <view class="source-meta">
+        <view>来源：{{mode}}</view>
+        <view>原始内容：{{inputContent || '未提供文本内容'}}</view>
+      </view>
+      <view class="ghost-button retry-button" bindtap="retryParse">重新解析</view>
+    </section-card>
+
+    <view class="warning-list" wx:if="{{warnings.length}}">
+      <block wx:for="{{warnings}}" wx:key="*this">
+        <view class="warning-item">{{item}}</view>
+      </block>
+    </view>
+
+    <view class="confirm-list">
+      <block wx:for="{{items}}" wx:key="id">
+        <section-card title="{{item.foodName}}" subtitle="{{item.originalName}}">
+          <view class="confirm-meta">
+            <view>分类：{{item.category}}</view>
+            <view>数量：{{item.quantityText}}</view>
+            <view>位置：{{item.storageText}}</view>
+            <view>到期：{{item.expireDate}}</view>
+            <view>置信度：{{item.confidenceText}}</view>
+          </view>
+          <view class="confirm-footer">
+            <expire-tag text="{{item.expireText}}" state="{{item.expireState}}" />
+            <view class="ghost-button" data-id="{{item.id}}" bindtap="editItem">编辑</view>
+          </view>
+        </section-card>
+      </block>
+    </view>
+  </view>
+
+  <view class="bottom-action">
+    <view class="pill-button bottom-button" bindtap="confirmSave">
+      {{saving ? '提交中...' : '确认入库'}}
+    </view>
+  </view>
+</view>

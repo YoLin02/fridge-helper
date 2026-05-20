@@ -22,6 +22,11 @@ Page({
       { title: "系统设置", desc: "账号与偏好占位区" }
     ]
   },
+  goAiEntry() {
+    wx.navigateTo({
+      url: "/pages/ai-entry/index"
+    });
+  },
   handleComingSoon() {
     wx.showToast({
       title: "M1 页面骨架已就位",

@@ -1,0 +1,32 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view>
+      <view class="page-title">AI 快速入库</view>
+      <view class="page-subtitle">支持小票、购物清单和自然语言录入，结果必须先确认。</view>
+    </view>
+  </view>
+
+  <section-card title="入库方式" subtitle="M2 先完成录入与跳转结构">
+    <view class="mode-row">
+      <block wx:for="{{modes}}" wx:key="value">
+        <view
+          class="mode-pill {{activeMode === item.value ? 'mode-pill--active' : ''}}"
+          data-value="{{item.value}}"
+          bindtap="switchMode"
+        >
+          {{item.label}}
+        </view>
+      </block>
+    </view>
+
+    <textarea
+      class="entry-textarea"
+      value="{{inputText}}"
+      placeholder="请输入购物内容"
+      bindinput="handleInput"
+    />
+
+    <view class="entry-tip">AI 仅生成草稿，不会直接写入库存。</view>
+    <view class="pill-button entry-button" bindtap="goNext">生成入库草稿</view>
+  </section-card>
+</view>

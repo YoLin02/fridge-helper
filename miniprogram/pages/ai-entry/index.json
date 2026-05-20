@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "AI 入库",
+  "usingComponents": {
+    "section-card": "/components/section-card/index"
+  }
+}

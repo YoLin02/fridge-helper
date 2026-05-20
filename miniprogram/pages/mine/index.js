@@ -1,66 +1,19 @@
-// pages/mine/index.js
+"use strict";
 Page({
-
-    /**
-     * 页面的初始数据
-     */
     data: {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad(options) {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload() {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh() {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom() {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage() {
-
+        profile: {
+            nickname: "健康生活家",
+            description: "用心记录每一餐，遇见更好的自己"
+        },
+        stats: [
+            { title: "食材数量", value: "128", label: "V1 核心指标", hint: "待接真实库存" },
+            { title: "饮食记录", value: "--", label: "非 V1", hint: "先不接业务" }
+        ],
+        settings: [
+            "消息通知",
+            "隐私设置",
+            "单位设置",
+            "帮助与反馈"
+        ]
     }
-})
+});

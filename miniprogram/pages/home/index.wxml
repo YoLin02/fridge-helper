@@ -17,7 +17,7 @@
         <view class="hero-title">拍小票 / 粘贴清单 / 文字输入</view>
         <view class="hero-desc">后续阶段会接入 AI 草稿识别与确认入库流程。</view>
       </view>
-      <view class="pill-button" bindtap="handleComingSoon">开始识别</view>
+      <view class="pill-button" bindtap="goAiEntry">开始识别</view>
     </view>
   </section-card>
 
