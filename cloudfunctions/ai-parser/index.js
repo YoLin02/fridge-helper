@@ -1,9 +1,10 @@
 const cloud = require("wx-server-sdk");
-const db = cloud.database();
 
 cloud.init({
   env: cloud.DYNAMIC_CURRENT_ENV
 });
+
+const db = cloud.database();
 
 const { applyFoodRules, buildCalorieDraft, buildInventoryDraft, buildRecipeDraft } = require("./services/normalizeService");
 const { createTaskResult } = require("./services/taskService");
