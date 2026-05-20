@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "卡路里",
+  "usingComponents": {
+    "section-card": "/components/section-card/index"
+  }
+}

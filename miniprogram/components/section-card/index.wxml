@@ -1,0 +1,9 @@
+<view class="section-card soft-card">
+  <view class="section-head">
+    <view class="section-title">{{title}}</view>
+    <view wx:if="{{subtitle}}" class="section-subtitle">{{subtitle}}</view>
+  </view>
+  <view class="section-body">
+    <slot />
+  </view>
+</view>

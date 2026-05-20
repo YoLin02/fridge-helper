@@ -1,0 +1,16 @@
+:root,
+page {
+  --color-primary: #32cba3;
+  --color-primary-soft: #e9faf5;
+  --color-bg: #f7f8fa;
+  --color-card: #ffffff;
+  --color-text: #1f2937;
+  --color-text-secondary: #8a949e;
+  --color-line: #e5e7eb;
+  --color-warning: #f6a623;
+  --color-danger: #f56c6c;
+  --page-padding: 32rpx;
+  --card-radius: 28rpx;
+  --card-padding: 28rpx;
+  --shadow-soft: 0 12rpx 36rpx rgba(50, 203, 163, 0.08);
+}

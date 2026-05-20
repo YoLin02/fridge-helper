@@ -1,0 +1,42 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/inventory/index",
+    "pages/calories/index",
+    "pages/mine/index"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundTextStyle": "light",
+    "backgroundColor": "#F7F8FA",
+    "backgroundColorTop": "#F7FFFC",
+    "backgroundColorBottom": "#F7F8FA"
+  },
+  "tabBar": {
+    "color": "#8A949E",
+    "selectedColor": "#32CBA3",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/inventory/index",
+        "text": "库存"
+      },
+      {
+        "pagePath": "pages/calories/index",
+        "text": "卡路里"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "usingComponents": {}
+}

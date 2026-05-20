@@ -1,0 +1,17 @@
+.quick-action {
+  padding: 24rpx;
+  min-height: 168rpx;
+  box-sizing: border-box;
+}
+
+.quick-title {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.quick-desc {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}

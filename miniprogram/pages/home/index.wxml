@@ -1,0 +1,37 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view>
+      <view class="page-title">{{greeting}}</view>
+      <view class="page-subtitle">新的阶段，从稳定框架开始搭起。</view>
+    </view>
+    <view class="ghost-button" bindtap="handleComingSoon">通知</view>
+  </view>
+
+  <section-card
+    class="section-spacer"
+    title="AI 快速入库"
+    subtitle="V1 的核心入口，M1 先完成结构与视觉占位"
+  >
+    <view class="hero-row">
+      <view class="hero-copy">
+        <view class="hero-title">拍小票 / 粘贴清单 / 文字输入</view>
+        <view class="hero-desc">后续阶段会接入 AI 草稿识别与确认入库流程。</view>
+      </view>
+      <view class="pill-button" bindtap="handleComingSoon">开始识别</view>
+    </view>
+  </section-card>
+
+  <view class="card-grid section-spacer">
+    <block wx:for="{{summaryCards}}" wx:key="title">
+      <stat-card title="{{item.title}}" value="{{item.value}}" label="{{item.label}}" hint="{{item.hint}}" />
+    </block>
+  </view>
+
+  <section-card class="section-spacer" title="快捷入口" subtitle="先把一级信息架构跑通">
+    <view class="action-grid">
+      <block wx:for="{{quickActions}}" wx:key="title">
+        <quick-action title="{{item.title}}" desc="{{item.desc}}" bind:tapaction="handleComingSoon" />
+      </block>
+    </view>
+  </section-card>
+</view>

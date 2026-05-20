@@ -1,0 +1,58 @@
+.filter-row {
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  padding: 18rpx 32rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--color-text-secondary);
+}
+
+.filter-pill--active {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.inventory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.inventory-item {
+  padding: 24rpx;
+  border-radius: 24rpx;
+  background: #f9fbfb;
+}
+
+.inventory-top,
+.inventory-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 24rpx;
+}
+
+.inventory-bottom {
+  margin-top: 14rpx;
+}
+
+.inventory-name,
+.inventory-quantity {
+  font-size: 34rpx;
+  font-weight: 600;
+}
+
+.inventory-meta,
+.inventory-expire {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+.inventory-status {
+  font-size: 28rpx;
+  color: var(--color-warning);
+}

@@ -1,0 +1,25 @@
+.section-card {
+  padding: var(--card-padding);
+  box-sizing: border-box;
+}
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.section-title {
+  font-size: 36rpx;
+  font-weight: 600;
+}
+
+.section-subtitle {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.section-body {
+  margin-top: 24rpx;
+}

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "库存",
+  "usingComponents": {
+    "section-card": "/components/section-card/index",
+    "stat-card": "/components/stat-card/index"
+  }
+}

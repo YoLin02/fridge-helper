@@ -1,0 +1,26 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view>
+      <view class="page-title">{{profile.nickname}}</view>
+      <view class="page-subtitle">{{profile.description}}</view>
+    </view>
+    <view class="ghost-button">设置</view>
+  </view>
+
+  <view class="card-grid">
+    <block wx:for="{{stats}}" wx:key="title">
+      <stat-card title="{{item.title}}" value="{{item.value}}" label="{{item.label}}" hint="{{item.hint}}" />
+    </block>
+  </view>
+
+  <section-card class="section-spacer" title="系统设置" subtitle="M1 先把设置入口铺好">
+    <view class="setting-list">
+      <block wx:for="{{settings}}" wx:key="*this">
+        <view class="setting-item">
+          <text>{{item}}</text>
+          <text class="setting-arrow">›</text>
+        </view>
+      </block>
+    </view>
+  </section-card>
+</view>

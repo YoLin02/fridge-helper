@@ -1,0 +1,26 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view>
+      <view class="page-title">卡路里</view>
+      <view class="page-subtitle">当前只提供页面壳，不实现 V1.5 业务逻辑。</view>
+    </view>
+    <view class="ghost-button">今天</view>
+  </view>
+
+  <section-card title="阶段说明" subtitle="遵循 AGENTS.md，先保留一级导航结构">
+    <view class="placeholder-copy">
+      这里会在后续阶段接入目标计算、饮食记录、运动消耗和营养统计。
+    </view>
+  </section-card>
+
+  <section-card class="section-spacer" title="记录区占位" subtitle="先确认信息架构和视觉节奏">
+    <view class="meal-list">
+      <block wx:for="{{mealSections}}" wx:key="title">
+        <view class="meal-item">
+          <view class="meal-title">{{item.title}}</view>
+          <view class="meal-hint">{{item.hint}}</view>
+        </view>
+      </block>
+    </view>
+  </section-card>
+</view>

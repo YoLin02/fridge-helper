@@ -1,0 +1,18 @@
+{
+  "appid": "touristappid",
+  "projectname": "fresh-diary-v2",
+  "compileType": "miniprogram",
+  "libVersion": "3.6.3",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "urlCheck": false,
+    "packNpmManually": false,
+    "compileHotReLoad": true,
+    "ignoreUploadUnusedFiles": true
+  },
+  "simulatorType": "wechat",
+  "condition": {}
+}

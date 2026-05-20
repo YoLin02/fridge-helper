@@ -1,0 +1,29 @@
+.stat-card {
+  padding: 28rpx;
+  min-height: 220rpx;
+  box-sizing: border-box;
+}
+
+.stat-title {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+.stat-value {
+  margin-top: 18rpx;
+  font-size: 56rpx;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.stat-label {
+  margin-top: 10rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.stat-hint {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}

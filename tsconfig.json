@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "strict": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "esModuleInterop": true,
+    "lib": ["ES2020"],
+    "typeRoots": ["./node_modules/@types", "./node_modules/miniprogram-api-typings"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["miniprogram/*"]
+    }
+  },
+  "include": [
+    "miniprogram/**/*.ts",
+    "miniprogram/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

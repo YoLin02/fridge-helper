@@ -1,0 +1,6 @@
+<view class="stat-card soft-card">
+  <view class="stat-title">{{title}}</view>
+  <view class="stat-value">{{value}}</view>
+  <view class="stat-label">{{label}}</view>
+  <view class="stat-hint">{{hint}}</view>
+</view>

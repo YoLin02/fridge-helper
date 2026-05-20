@@ -1,0 +1,19 @@
+.setting-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 88rpx;
+  padding: 0 8rpx;
+  font-size: 30rpx;
+}
+
+.setting-arrow {
+  font-size: 38rpx;
+  color: var(--color-text-secondary);
+}

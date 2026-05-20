@@ -1,0 +1,28 @@
+.placeholder-copy {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.meal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.meal-item {
+  padding: 24rpx;
+  border-radius: 24rpx;
+  background: #f9fbfb;
+}
+
+.meal-title {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.meal-hint {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}

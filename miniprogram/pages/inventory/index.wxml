@@ -1,0 +1,47 @@
+<view class="page-shell">
+  <view class="page-header">
+    <view>
+      <view class="page-title">库存</view>
+      <view class="page-subtitle">M1 先完成批次列表骨架与筛选结构。</view>
+    </view>
+    <view class="ghost-button">搜索</view>
+  </view>
+
+  <view class="card-grid">
+    <block wx:for="{{inventoryStats}}" wx:key="title">
+      <stat-card title="{{item.title}}" value="{{item.value}}" label="{{item.label}}" hint="{{item.hint}}" />
+    </block>
+  </view>
+
+  <view class="filter-row section-spacer">
+    <block wx:for="{{filters}}" wx:key="*this">
+      <view
+        class="filter-pill {{activeFilter === item ? 'filter-pill--active' : ''}}"
+        data-value="{{item}}"
+        bindtap="switchFilter"
+      >
+        {{item}}
+      </view>
+    </block>
+  </view>
+
+  <section-card class="section-spacer" title="食材列表" subtitle="保持信息优先，复杂操作放到详情页">
+    <view class="inventory-list">
+      <block wx:for="{{items}}" wx:key="name">
+        <view class="inventory-item">
+          <view class="inventory-top">
+            <view>
+              <view class="inventory-name">{{item.name}}</view>
+              <view class="inventory-meta">{{item.category}} · {{item.storage}}</view>
+            </view>
+            <view class="inventory-quantity">{{item.quantity}}</view>
+          </view>
+          <view class="inventory-bottom">
+            <view class="inventory-expire">{{item.expire}}</view>
+            <view class="inventory-status">{{item.status}}</view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </section-card>
+</view>
